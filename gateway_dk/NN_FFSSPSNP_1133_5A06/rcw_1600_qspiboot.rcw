@@ -19,8 +19,8 @@ HWA_CGA_M1_CLK_SEL=6              /* b110 Group A PLL2 /2 is clock, for FMAN */
 /* SerDes settings */
 SRDS_PRTCL_S1=4403                /* 0x1133: 0=XFI.9, 1=XFI.10, 2=SGMII.5, 3=SGMII.6 */
 SRDS_PRTCL_S2=23046               /* 0x5a06: 0=PCIe 1.0x1, 1=SGMII.2, 2=OFF, 3=PCIe 3.0x1 */
-SRDS_PLL_REF_CLK_SEL_S1=1         /* 156.25 Mhz Clock for SerDes 1 */
-SRDS_PLL_REF_CLK_SEL_S2=0         /* 100 Mhz Clock for Serdes 2 */
+SRDS_PLL_REF_CLK_SEL_S1=1         /* 100/156.25 Mhz Clock for SerDes 1 */
+SRDS_PLL_REF_CLK_SEL_S2=0         /* 100/100 Mhz Clock for Serdes 2 */
 SRDS_DIV_PEX_S1=0                 /* For PCIe, define later */
 SRDS_DIV_PEX_S2=0                 /* For PCIe, define later */
 
@@ -31,7 +31,7 @@ EVDD_VSEL=0
 
 /* memory settings */
 DDR_FDBK_MULT=2                   /* Mandatory */
-DDR_REFCLK_SEL=1                  /* 0=DDRCLK, 1=DIFF_SYSCLK, both should work */
+DDR_REFCLK_SEL=0                  /* 0=DDRCLK, 1=DIFF_SYSCLK, both should work */
 DRAM_LAT=1                        /* b01 for latencies, higher than 8-8-8 */
 
 /* boot settings */
@@ -44,9 +44,12 @@ IFC_GRP_D_EXT=1
 IFC_GRP_E1_EXT=1
 IFC_GRP_F_EXT=1
 IRQ_OUT=1                         /* Mandatory */
-IIC2_EXT=1
+IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
+IRQ_BASE=0                        /* All GPIO1[23:31] pins set to IRQ
+IIC2_EXT=0                        /* We want I2C pins */
 SPI_EXT=1                         /* For SDHC config, define later */
 UART_BASE=7                       /* b111, all UART pins assigned to UART */
+SDHC_BASE=0
 
 .pbi
 // QSPI flash clock and endianness fix
@@ -62,3 +65,9 @@ write 0x550000, 0x000f400c
 #include <../ls1046ardb/a008851.rcw>
 #include <../ls1046ardb/a010477.rcw>
 #include <../ls1046ardb/a009531.rcw>
+
+.pbi
+// Software must wait after updating the ALTCBAR.
+// Below is the PBL Wait command (0xc0)
+write 0x6100c0, 0x000fffff
+.end
