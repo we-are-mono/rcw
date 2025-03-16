@@ -48,6 +48,8 @@ IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
 IRQ_BASE=0                        /* All GPIO1[23:31] pins set to IRQ
 IIC2_EXT=0                        /* We want I2C pins */
 SPI_EXT=1                         /* For SDHC config, define later */
+EC1=1                             /* We want GPIO3, not EC1 */
+EC2=1                             /* We want GPIO3, not EC2 */
 UART_BASE=7                       /* b111, all UART pins assigned to UART */
 SDHC_BASE=0
 
