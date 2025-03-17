@@ -45,15 +45,19 @@ IFC_GRP_E1_EXT=1
 IFC_GRP_F_EXT=1
 IRQ_OUT=1                         /* Mandatory */
 IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
-IRQ_BASE=0                        /* All GPIO1[23:31] pins set to IRQ
+IRQ_BASE=1                        /* All GPIO1[23:31] pins set to IRQ
 IIC2_EXT=0                        /* We want I2C pins */
 SPI_EXT=1                         /* For SDHC config, define later */
 EC1=1                             /* We want GPIO3, not EC1 */
 EC2=1                             /* We want GPIO3, not EC2 */
 UART_BASE=7                       /* b111, all UART pins assigned to UART */
 SDHC_BASE=0
+SPI_EXT=2                         /* We need GPIO2_02 for SFP clock selector */
 
 .pbi
+// Make sure to use IIC3_SCL and IIC3_SDA (GPIO_4[10|11] by default)
+write 0x57040c, 0x00000000
+
 // QSPI flash clock and endianness fix
 write 0x57015c, 0x20100000
 write 0x570600, 0x00000000
