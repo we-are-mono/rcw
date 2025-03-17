@@ -71,9 +71,3 @@ write 0x550000, 0x000f400c
 #include <../ls1046ardb/a008851.rcw>
 #include <../ls1046ardb/a010477.rcw>
 #include <../ls1046ardb/a009531.rcw>
-
-.pbi
-// Software must wait after updating the ALTCBAR.
-// Below is the PBL Wait command (0xc0)
-write 0x6100c0, 0x000fffff
-.end
