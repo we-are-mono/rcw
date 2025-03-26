@@ -31,7 +31,7 @@ EVDD_VSEL=0
 
 /* memory settings */
 DDR_FDBK_MULT=2                   /* Mandatory */
-DDR_REFCLK_SEL=0                  /* 0=DDRCLK, 1=DIFF_SYSCLK, both should work */
+DDR_REFCLK_SEL=1                  /* 0=DDRCLK, 1=DIFF_SYSCLK, both should work */
 DRAM_LAT=1                        /* b01 for latencies, higher than 8-8-8 */
 
 /* boot settings */
@@ -53,6 +53,8 @@ EC2=1                             /* We want GPIO3, not EC2 */
 UART_BASE=7                       /* b111, all UART pins assigned to UART */
 SDHC_BASE=0
 SPI_EXT=2                         /* We need GPIO2_02 for SFP clock selector */
+USB_DRVVBUS=0
+USB_PWRFAULT=0
 
 .pbi
 // Make sure to use IIC3_SCL and IIC3_SDA (GPIO_4[10|11] by default)
@@ -63,11 +65,14 @@ write 0x57015c, 0x20100000
 write 0x570600, 0x00000000
 write 0x570604, 0x40100000
 write 0x550000, 0x000f400c
+
+// USB config
+write 0x570410, 0x00000000
+write 0x570414, 0x00000001
 .end
 
 #include <../ls1046ardb/cci_barrier_disable.rcw>
 #include <../ls1046ardb/usb_phy_freq.rcw>
-#include <../ls1046ardb/serdes_sata.rcw>
 #include <../ls1046ardb/a008851.rcw>
 #include <../ls1046ardb/a010477.rcw>
 #include <../ls1046ardb/a009531.rcw>
