@@ -1,0 +1,78 @@
+/*
+ * To build, just enter "make" in the top level directory.
+ */
+
+#include <../ls1046ardb/ls1046a.rcwi>
+
+%littleendian64b=1
+%dont64bswapcrc=1
+
+/* clocking */
+SYSCLK_FREQ=600                   /* SYSCLK input = 600 * 166.667 kHz = 100 MHz */
+SYS_PLL_RAT=6                     /* platform clock =  6 * SYSCLK =  600 MHz */
+MEM_PLL_RAT=16                    /* DDR clock = 16 * SYSCLK = 1600 MT/s */
+CGA_PLL1_RAT=16                   /* PLL1 (CPU) = 16 * SYSCLK = 1600 MHz */
+CGA_PLL2_RAT=14                   /* PLL2 (FMan, eSDHC, QSPI) = 14 * SYSCLK = 1400 MHz */
+HWA_CGA_M2_CLK_SEL=1              /* QSPI clock selector */
+HWA_CGA_M1_CLK_SEL=6              /* b110 Group A PLL2 /2 is clock, for FMAN */
+
+/* SerDes settings */
+SRDS_PRTCL_S1=4403                /* 0x1133: 0=XFI.9, 1=XFI.10, 2=SGMII.5, 3=SGMII.6 */
+SRDS_PRTCL_S2=23046               /* 0x5a06: 0=PCIe 1.0x1, 1=SGMII.2, 2=OFF, 3=PCIe 3.0x1 */
+SRDS_PLL_REF_CLK_SEL_S1=1         /* 100/156.25 Mhz Clock for SerDes 1 */
+SRDS_PLL_REF_CLK_SEL_S2=0         /* 100/100 Mhz Clock for Serdes 2 */
+SRDS_DIV_PEX_S1=0                 /* For PCIe, define later */
+SRDS_DIV_PEX_S2=0                 /* For PCIe, define later */
+
+/* I/O bank voltages, all set to 0 for 1.8V */
+TVDD_VSEL=0
+DVDD_VSEL=0
+EVDD_VSEL=0
+
+/* memory settings */
+DDR_FDBK_MULT=2                   /* Mandatory */
+DDR_REFCLK_SEL=1                  /* 0=DDRCLK, 1=DIFF_SYSCLK, both should work */
+DRAM_LAT=1                        /* b01 for latencies, higher than 8-8-8 */
+
+/* boot settings */
+PBI_SRC=6                         /* EMMC (b0110) */
+SB_EN=0                           /* secure boot is not enabled */
+
+/* pin multiplexing, all IFC_* options set the pins to QSPI */
+IFC_GRP_A_EXT=1
+IFC_GRP_D_EXT=1
+IFC_GRP_E1_EXT=1
+IFC_GRP_F_EXT=1
+IRQ_OUT=1                         /* Mandatory */
+IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
+IRQ_BASE=1                        /* All GPIO1[23:31] pins set to IRQ
+IIC2_EXT=0                        /* We want I2C pins */
+SPI_EXT=1                         /* For SDHC config, define later */
+EC1=1                             /* We want GPIO3, not EC1 */
+EC2=1                             /* We want GPIO3, not EC2 */
+UART_BASE=7                       /* b111, all UART pins assigned to UART */
+SDHC_BASE=0
+SPI_EXT=2                         /* We need GPIO2_02 for SFP clock selector */
+USB_DRVVBUS=0
+USB_PWRFAULT=0
+
+.pbi
+// Make sure to use IIC3_SCL and IIC3_SDA (GPIO_4[10|11] by default)
+write 0x57040c, 0x00000000
+
+// QSPI flash clock and endianness fix
+write 0x57015c, 0x20100000
+write 0x570600, 0x00000000
+write 0x570604, 0x40100000
+write 0x550000, 0x000f400c
+
+// USB config
+write 0x570410, 0x00000000
+write 0x570414, 0x00000001
+.end
+
+#include <../ls1046ardb/cci_barrier_disable.rcw>
+#include <../ls1046ardb/usb_phy_freq.rcw>
+#include <../ls1046ardb/a008851.rcw>
+#include <../ls1046ardb/a010477.rcw>
+#include <../ls1046ardb/a009531.rcw>
