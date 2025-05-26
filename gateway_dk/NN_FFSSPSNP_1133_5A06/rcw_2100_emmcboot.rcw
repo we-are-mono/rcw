@@ -7,7 +7,7 @@
 /* clocking */
 SYSCLK_FREQ=600                   /* SYSCLK input = 600 * 166.667 kHz = 100 MHz */
 SYS_PLL_RAT=6                     /* platform clock =  6 * SYSCLK =  600 MHz */
-MEM_PLL_RAT=16                    /* DDR clock = 16 * SYSCLK = 1600 MT/s */
+MEM_PLL_RAT=21                    /* DDR clock = 21 * SYSCLK = 2100 MT/s */
 CGA_PLL1_RAT=16                   /* PLL1 (CPU) = 16 * SYSCLK = 1600 MHz */
 CGA_PLL2_RAT=14                   /* PLL2 (FMan, eSDHC, QSPI) = 14 * SYSCLK = 1400 MHz */
 HWA_CGA_M2_CLK_SEL=1              /* QSPI clock selector */
