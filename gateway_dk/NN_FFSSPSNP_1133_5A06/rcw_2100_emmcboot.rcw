@@ -44,6 +44,7 @@ IRQ_OUT=1                         /* Mandatory */
 IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
 IRQ_BASE=1                        /* All GPIO1[23:31] pins set to IRQ
 IIC2_EXT=0                        /* We want I2C pins */
+IIC1_EXT = 0                      /* We want I2C pins */
 SPI_EXT=1                         /* For SDHC config, define later */
 SDHC_BASE=0
 EC1=1                             /* We want GPIO3, not EC1 */
