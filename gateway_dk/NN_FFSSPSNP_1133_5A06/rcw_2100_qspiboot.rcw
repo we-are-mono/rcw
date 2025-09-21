@@ -41,7 +41,8 @@ SB_EN=0                           /* secure boot is not enabled */
 /* pin multiplexing, all IFC_* options set the pins to QSPI */
 IFC_GRP_A_EXT=1
 IFC_GRP_D_EXT=1
-IFC_GRP_E1_EXT=1
+IFC_GRP_E1_EXT=0
+IFC_GRP_E1_BASE=1
 IFC_GRP_F_EXT=1
 IRQ_OUT=1                         /* Mandatory */
 IRQ_EXT=0                         /* We want IRQ/GPIO pins instead of FTM */
