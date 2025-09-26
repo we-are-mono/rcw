@@ -36,6 +36,7 @@ DRAM_LAT=1                        /* b01 for latencies, higher than 8-8-8 */
 
 /* boot settings */
 PBI_SRC=6                         /* EMMC (b0110) */
+IFC_MODE=64
 SB_EN=0                           /* secure boot is not enabled */
 
 /* pin multiplexing, all IFC_* options set the pins to QSPI */
