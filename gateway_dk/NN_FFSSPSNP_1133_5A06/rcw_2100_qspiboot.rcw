@@ -67,10 +67,6 @@ write 0x570604, 0x10000000
 .pbi
 // Make sure to use IIC3_SCL and IIC3_SDA (GPIO_4[10|11] by default)
 write 0x57040c, 0x00000000
-
-// USB config
-write 0x570410, 0x00000000
-write 0x570414, 0x00000001
 .end
 
 #include <../ls1046ardb/cci_barrier_disable.rcw>
